@@ -102,7 +102,20 @@ re = /Hel{2,}o/i; //letter must occur atleast number of times
 // Parentheses () grouping
 re = /^([0-9]x){3}$/
 
+// Shorthand character classes
+re = /\w/ //Word character, alphanumeric or _
+re = /\w+/ // + is one or more
+re = /\W/ // Not word characters
+re = /\d/ // Match any digit
+re = /\d+/ // Match any digit 0 or more times
+re = /\D/ // Not a digit
+re = /\s/ // whitespace
+re = /\S/ // Not whitespace
+re = /Hell\b/i // Word boundary
 
+// Assertions
+re = /x(?=y)/; //Match x only if followed by y
+re = /x(x!y)/; //Match x only if not followed by y
 
 // // String to match
 const str = 'Hello'
