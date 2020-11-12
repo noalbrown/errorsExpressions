@@ -72,24 +72,44 @@
 // console.log(newStr)
 
 let re;
-// Literal characters
-re = /hello/;
-re = /hello/i;
+// // Literal characters
+// re = /hello/;
+// re = /hello/i;
 
-// Meta character symbols
-re = /^h/i //Means must start with
-re = /d$/i //Means must end with
-re = /^hello world$/i //Means must begin and end with
-re = /^h.llo/i //Means matches any ONE character
-re = /h*llo/i //Means matches any character 0 or more times
-re = /gre?a?y/i //Optional character match
-re = /gre?a?y\?/i //Escape character
+// // Meta character symbols
+// re = /^h/i //Means must start with
+// re = /d$/i //Means must end with
+// re = /^hello world$/i //Means must begin and end with
+// re = /^h.llo/i //Means matches any ONE character
+// re = /h*llo/i //Means matches any character 0 or more times
+// re = /gre?a?y/i //Optional character match
+// re = /gre?a?y\?/i //Escape character
 
-// String to match
-// const str = 'Hello World';
-const str = 'Gray?';
+// Brackets [] are character sets
+re = /gr[ae]y/i; //must be an a or e
+re = /[GF]ray/i; //must be G or F
+re = /[^GF]ray/i; //Will match anything EXCEPT G or F
+re = /[A-Z]ray/; //Will match any Uppercase letter
+re = /[a-z]ray/; //Will match any Lowercase letter
+re = /[A-Za-z]ray/; //Will match any case letter
+re = /[0-9]ray/; //Will match any digit
 
-// Log Results
+// Braces {} quantifiers
+re = /Hel{2}o/i; //letter must occur exact number of times
+re = /Hel{2,4}o/i; //letter must occur exact number of times
+re = /Hel{2,}o/i; //letter must occur atleast number of times
+
+// Parentheses () grouping
+re = /^([0-9]x){3}$/
+
+
+
+// // String to match
+const str = 'Hello'
+// // const str = 'Hello World';
+// const str = 'Gray';
+
+// // Log Results
 const result = re.exec(str)
 console.log(result)
 
