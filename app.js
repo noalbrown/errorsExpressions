@@ -32,10 +32,10 @@
 
 
 // EXPRESSIONS
-let re;
+// let re;
 
-re = /hello/;
-re = /hello/i; // i = case insensitive
+// re = /hello/;
+// re = /hello/i; // i = case insensitive
 // re = /hello/g; // g = finds all, not just one
 
 // console.log(re)
@@ -66,7 +66,39 @@ re = /hello/i; // i = case insensitive
 // console.log(result)
 
 // replace() will return a new string with some or all matches of a pattern
-const str = 'Hello There'
-const newStr = str.replace(re, 'Hi')
+// const str = 'Hello There'
+// const newStr = str.replace(re, 'Hi')
 
-console.log(newStr)
+// console.log(newStr)
+
+let re;
+// Literal characters
+re = /hello/;
+re = /hello/i;
+
+// Meta character symbols
+re = /^h/i //Means must start with
+re = /d$/i //Means must end with
+re = /^hello world$/i //Means must begin and end with
+re = /^h.llo/i //Means matches any ONE character
+re = /h*llo/i //Means matches any character 0 or more times
+re = /gre?a?y/i //Optional character match
+re = /gre?a?y\?/i //Escape character
+
+// String to match
+// const str = 'Hello World';
+const str = 'Gray?';
+
+// Log Results
+const result = re.exec(str)
+console.log(result)
+
+function reTest(re, str) {
+  if (re.test(str)) {
+    console.log(`${str} matches ${re.source}`)
+  } else {
+    console.log(`${str} does NOT match ${re.source}`)
+  }
+}
+
+reTest(re, str)
