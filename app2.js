@@ -125,55 +125,107 @@
 
 
 // Observer Pattern
-function EventObserver() {
-  this.observers = [];
+// function EventObserver() {
+//   this.observers = [];
+// }
+
+// EventObserver.prototype = {
+//   subscribe: function (fn) {
+//     this.observers.push(fn)
+//     console.log(`You are now subscribed to ${fn.name}`)
+//   },
+
+//   unsubscribe: function (fn) {
+//     this.observers = this.observers.filter(function (item) {
+//       if (item !== fn) {
+//         return item
+//       }
+//     });
+//     console.log(`You are now unsubscribed from ${fn.name}`)
+//   },
+
+//   fire: function () {
+//     this.observers.forEach(function (item) {
+//       item.call()
+//     })
+//   }
+// }
+
+// const click = new EventObserver();
+
+// // Event listeners
+// document.querySelector('.sub-ms').addEventListener('click', function () {
+//   click.subscribe(getCurMilliseconds)
+// });
+// document.querySelector('.unsub-ms').addEventListener('click', function () {
+//   click.unsubscribe(getCurMilliseconds)
+// });
+// document.querySelector('.sub-s').addEventListener('click', function () {
+//   click.subscribe(getCurSeconds)
+// });
+// document.querySelector('.unsub-s').addEventListener('click', function () {
+//   click.unsubscribe(getCurSeconds)
+// });
+// document.querySelector('.fire').addEventListener('click', function () {
+//   click.fire()
+// });
+
+// // Click handler
+// const getCurMilliseconds = function () {
+//   console.log(`Current Milliseconds: ${new Date().getMilliseconds()}`)
+// }
+// const getCurSeconds = function () {
+//   console.log(`Current seconds: ${new Date().getSeconds()}`)
+// }
+
+
+
+// Mediator pattern
+const User = function (name) {
+  this.name = name;
+  this.chatroom = null;
 }
 
-EventObserver.prototype = {
-  subscribe: function (fn) {
-    this.observers.push(fn)
-    console.log(`You are now subscribed to ${fn.name}`)
+User.prototype = {
+  send: function (message, to) {
+    this.chatroom.send(message, this, to)
   },
-
-  unsubscribe: function (fn) {
-    this.observers = this.observers.filter(function (item) {
-      if (item !== fn) {
-        return item
-      }
-    });
-    console.log(`You are now unsubscribed from ${fn.name}`)
-  },
-
-  fire: function () {
-    this.observers.forEach(function (item) {
-      item.call()
-    })
+  receive: function (message, from) {
+    console.log(`${from.name} to ${this.name}: ${message}`)
   }
 }
 
-const click = new EventObserver();
+const Chatroom = function () {
+  let users = {};
 
-// Event listeners
-document.querySelector('.sub-ms').addEventListener('click', function () {
-  click.subscribe(getCurMilliseconds)
-});
-document.querySelector('.unsub-ms').addEventListener('click', function () {
-  click.unsubscribe(getCurMilliseconds)
-});
-document.querySelector('.sub-s').addEventListener('click', function () {
-  click.subscribe(getCurSeconds)
-});
-document.querySelector('.unsub-s').addEventListener('click', function () {
-  click.unsubscribe(getCurSeconds)
-});
-document.querySelector('.fire').addEventListener('click', function () {
-  click.fire()
-});
+  return {
+    register: function (user) {
+      users[user.name] = user;
+      user.chatroom = this;
+    },
+    send: function (message, from, to) {
+      if (to) {
+        to.receive(message, from)
+      } else {
+        for (key in users) {
+          if (users[key] !== from) {
+            users[key].receive(message, from)
+          }
+        }
+      }
+    }
+  }
+}
 
-// Click handler
-const getCurMilliseconds = function () {
-  console.log(`Current Milliseconds: ${new Date().getMilliseconds()}`)
-}
-const getCurSeconds = function () {
-  console.log(`Current seconds: ${new Date().getSeconds()}`)
-}
+const bob = new User('Bob')
+const bill = new User('Bill')
+const bobby = new User('Bobby')
+
+const chatroom = new Chatroom();
+
+chatroom.register(bob)
+chatroom.register(bill)
+chatroom.register(bobby)
+
+bob.send('Hello bill', bill)
+bob.send('Hello everyone')
