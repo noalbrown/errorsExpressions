@@ -51,24 +51,73 @@
 
 
 // Singleton pattern
-const Singleton = (function () {
-  let instance;
+// const Singleton = (function () {
+//   let instance;
 
-  function createInstance() {
-    const object = new Object('Object Instance')
-    return object;
-  }
+//   function createInstance() {
+//     const object = new Object('Object Instance')
+//     return object;
+//   }
 
-  return {
-    getInstance: function () {
-      if (!instance) {
-        instance = createInstance
-      }
-      return instance;
+//   return {
+//     getInstance: function () {
+//       if (!instance) {
+//         instance = createInstance
+//       }
+//       return instance;
+//     }
+//   }
+// })();
+
+// const instanceA = Singleton.getInstance();
+
+// console.log(instanceA);
+
+
+
+// factory pattern
+function MemberFactory() {
+  this.createMember = function (name, type) {
+    let member;
+
+    if (type === 'simple') {
+      member = new SimpleMembership(name)
+    } else if (type === 'standard') {
+      member = new StandardMembership(name)
+    } else if (type === 'super') {
+      member = new SuperMembership(name)
+    }
+
+    member.type = type;
+
+    member.define = function () {
+      console.log(`${this.name} (${this.type}): ${this.cost}`)
     }
   }
-})();
+}
 
-const instanceA = Singleton.getInstance();
+const SimpleMembership = function (name) {
+  this.name = name;
+  this.cost = '$5'
+}
+const StandardMembership = function (name) {
+  this.name = name;
+  this.cost = '$15'
+}
+const SuperMembership = function (name) {
+  this.name = name;
+  this.cost = '$25'
+}
 
-console.log(instanceA);
+const members = [];
+const factory = new MemberFactory();
+
+members.push(factory.createMember('John Doe', 'simple'))
+members.push(factory.createMember('Jane Doe', 'standard'))
+members.push(factory.createMember('Jim Doe', 'super'))
+
+// console.log(members);
+
+members.forEach(function (member) {
+  member.define()
+})
