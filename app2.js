@@ -27,23 +27,48 @@
 
 
 // Revealing module pattern
-const ItemCtrl = (function () {
-  let data = []
+// const ItemCtrl = (function () {
+//   let data = []
 
-  function add(item) {
-    data.push(item)
-  }
+//   function add(item) {
+//     data.push(item)
+//   }
 
-  function get(id) {
-    return data.find(item => {
-      return item.id === id;
-    })
+//   function get(id) {
+//     return data.find(item => {
+//       return item.id === id;
+//     })
+//   }
+
+//   return {
+//     add: add,
+//     get: get
+//   }
+// })()
+
+// ItemCtrl.add({ id: 1, name: 'John' })
+
+
+
+// Singleton pattern
+const Singleton = (function () {
+  let instance;
+
+  function createInstance() {
+    const object = new Object('Object Instance')
+    return object;
   }
 
   return {
-    add: add,
-    get: get
+    getInstance: function () {
+      if (!instance) {
+        instance = createInstance
+      }
+      return instance;
+    }
   }
-})()
+})();
 
-ItemCtrl.add({ id: 1, name: 'John' })
+const instanceA = Singleton.getInstance();
+
+console.log(instanceA);
